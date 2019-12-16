@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         hashMap.put("USD","1");
         hashMap.put("BDT", "85.45");
 
-        String url ="http://data.fixer.io/latest?access_key=c9399a06e76d12753568973cb10c9bc2";
+        String url ="http://data.fixer.io/latest";
 
         JsonObjectRequest jsonObjReq= new JsonObjectRequest(Request.Method.GET,
                 url, null, new Response.Listener<JSONObject>() {
