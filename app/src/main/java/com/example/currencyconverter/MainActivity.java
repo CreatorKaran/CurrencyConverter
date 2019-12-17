@@ -1,9 +1,5 @@
 package com.example.currencyconverter;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.PictureInPictureParams;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.Editable;
@@ -16,10 +12,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,10 +33,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
+public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     private Spinner spinner_firstChose, spinner_secondChose;
-    HashMap<String,String> hashMap;
+    HashMap<String, String> hashMap;
     private EditText edt_firstCountry, edt_secondCountry;
     private TextView txtview_result, TextView_date;
     String date;
@@ -68,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
                 if (!txtview_result.getText().toString().equals("")) {
                     tts.speak(txtview_result.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
-                    RunAnimation(R.anim.clockwise,txtview_result);
+                    RunAnimation(R.anim.clockwise, txtview_result);
                 }
 
             }
@@ -122,12 +119,12 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
     private void getonlinemoneydata() {
         hashMap.clear();
-        hashMap.put("USD","1");
+        hashMap.put("USD", "1");
         hashMap.put("BDT", "85.45");
+        //access_key=c9399a06e76d12753568973cb10c9bc2;
+        String url = "http://data.fixer.io/latest";
 
-        String url ="http://data.fixer.io/latest";
-
-        JsonObjectRequest jsonObjReq= new JsonObjectRequest(Request.Method.GET,
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -175,20 +172,20 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     }
 
     private void RunAnimation(int rID, TextView textView) {
-        Animation a = AnimationUtils.loadAnimation(this,rID);
+        Animation a = AnimationUtils.loadAnimation(this, rID);
         a.reset();
         textView.clearAnimation();
         textView.startAnimation(a);
     }
 
     private void initialize() {
-        spinner_firstChose =findViewById(R.id.spinner_firstChose);
-        spinner_secondChose =findViewById(R.id.spinner_secondChose);
-        edt_firstCountry =findViewById(R.id.edt_firstCountry);
-        edt_secondCountry =findViewById(R.id.edt_secondCountry);
-        txtview_result =findViewById(R.id.txtview_result);
-        TextView_date =findViewById(R.id.TextView_date);
-        tts_button =findViewById(R.id.tts_button);
+        spinner_firstChose = findViewById(R.id.spinner_firstChose);
+        spinner_secondChose = findViewById(R.id.spinner_secondChose);
+        edt_firstCountry = findViewById(R.id.edt_firstCountry);
+        edt_secondCountry = findViewById(R.id.edt_secondCountry);
+        txtview_result = findViewById(R.id.txtview_result);
+        TextView_date = findViewById(R.id.TextView_date);
+        tts_button = findViewById(R.id.tts_button);
         tts = new TextToSpeech(this, this);
 
         edt_secondCountry.setEnabled(false);
@@ -208,17 +205,17 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             String targetCurrency = spinner_secondChose.getSelectedItem().toString();
 
             try {
-            double baseRate = Double.valueOf(hashMap.get("USD"));
-            double initRate = Double.valueOf(hashMap.get(inititCurrency));
-            double targetRate = Double.valueOf(hashMap.get(targetCurrency));
-            double first_input = Double.valueOf(edt_firstCountry.getText().toString());
+                double baseRate = Double.valueOf(hashMap.get("USD"));
+                double initRate = Double.valueOf(hashMap.get(inititCurrency));
+                double targetRate = Double.valueOf(hashMap.get(targetCurrency));
+                double first_input = Double.valueOf(edt_firstCountry.getText().toString());
 
-            String resultFinal = String.valueOf(String.format("%.2f", ((targetRate * first_input) / initRate)));
-            edt_secondCountry.setText(resultFinal);
+                String resultFinal = String.valueOf(String.format("%.2f", ((targetRate * first_input) / initRate)));
+                edt_secondCountry.setText(resultFinal);
 
-            txtview_result.setText(edt_firstCountry.getText().toString() + " "
-                    + inititCurrency + " = "+ resultFinal + " " + targetCurrency);
-            RunAnimation(R.anim.blink,txtview_result);
+                txtview_result.setText(edt_firstCountry.getText().toString() + " "
+                        + inititCurrency + " = " + resultFinal + " " + targetCurrency);
+                RunAnimation(R.anim.blink, txtview_result);
             } catch (Exception e) {
 
 
